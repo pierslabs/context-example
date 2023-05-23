@@ -5,7 +5,7 @@ import { AiFillCheckCircle } from "react-icons/ai";
 const ShippingMethod = () => {
   const { step, selectedMethod, handleSelectMethod, handleContinue } =
     useShipping();
-  console.log("render shipping");
+
   return (
     <div className="max-w-md mx-auto mt-10">
       <h2 className="mb-6 text-2xl font-bold text-center">Método de Envío</h2>

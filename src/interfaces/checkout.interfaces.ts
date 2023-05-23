@@ -1,4 +1,4 @@
-export interface UserDetail {
+export interface IAddressShipping {
   street: string;
   city: string;
   state: string;

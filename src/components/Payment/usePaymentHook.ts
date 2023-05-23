@@ -3,13 +3,14 @@ import { CheckoutStep } from "../../enum/checkout.enum";
 import { CheckoutContext } from "../../context/checkout.context";
 
 export const usePayment = () => {
-  const { handleUser, user, handleStep, step, setDone } =
+  const { handleAddressShipping, addressShipping, handleStep, step, setDone } =
     useContext(CheckoutContext);
   const [selectedMethod, setSelectedMethod] = useState("");
 
   const handleSelectMethod = (method: string) => {
     setSelectedMethod(method);
-    handleUser && handleUser({ ...user, paymentMethod: method });
+    handleAddressShipping &&
+      handleAddressShipping({ ...addressShipping, paymentMethod: method });
   };
 
   const handleContinue = () => {

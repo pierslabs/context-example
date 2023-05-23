@@ -1,13 +1,13 @@
 import { createContext, useCallback, useState } from "react";
-import { UserDetail } from "../interfaces/checkout.interfaces";
+import { IAddressShipping } from "../interfaces/checkout.interfaces";
 import { CheckoutStep } from "../enum/checkout.enum";
 
 interface CheckoutContextProps {
   step: CheckoutStep;
   done: boolean;
-  user: UserDetail;
+  addressShipping: IAddressShipping;
   handleStep: (step: CheckoutStep) => void;
-  handleUser?: (user: UserDetail) => void;
+  handleAddressShipping?: (address: IAddressShipping) => void;
   setDone: (done: boolean) => void;
 }
 
@@ -15,7 +15,7 @@ export const CheckoutContext = createContext<CheckoutContextProps>(
   {} as CheckoutContextProps
 );
 
-const userInitialValues: UserDetail = {
+const addressShippingInitialValues: IAddressShipping = {
   street: "",
   city: "",
   state: "",
@@ -29,20 +29,32 @@ interface Props {
 }
 
 const CheckoutProvider = ({ children }: Props) => {
+  // states
   const [step, setStep] = useState(CheckoutStep.ADDRESS);
-  const [user, setUser] = useState<UserDetail>(userInitialValues);
   const [done, setDone] = useState(false);
+  const [addressShipping, setAddressShipping] = useState<IAddressShipping>(
+    addressShippingInitialValues
+  );
+
+  // functions
   const handleStep = (step: CheckoutStep) => {
     setStep(step);
   };
 
-  const handleUser = useCallback((user: UserDetail) => {
-    setUser(user);
-  }, []);
+  const handleAddressShipping = (address: IAddressShipping) => {
+    setAddressShipping(address);
+  };
 
   return (
     <CheckoutContext.Provider
-      value={{ step, user, done, handleStep, handleUser, setDone }}
+      value={{
+        step,
+        addressShipping,
+        done,
+        handleStep,
+        handleAddressShipping,
+        setDone,
+      }}
     >
       {children}
     </CheckoutContext.Provider>

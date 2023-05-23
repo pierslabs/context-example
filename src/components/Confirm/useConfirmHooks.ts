@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { CheckoutContext } from "../../context/checkout.context";
 
 export const useConfirm = () => {
-  const { step, done } = useContext(CheckoutContext);
+  const { step, done, addressShipping } = useContext(CheckoutContext);
 
-  return { step, done };
+  return { step, done, addressShipping };
 };

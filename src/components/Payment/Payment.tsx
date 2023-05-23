@@ -5,15 +5,13 @@ import { AiFillCheckCircle } from "react-icons/ai";
 
 const Payment = () => {
   const {
-    // state
     selectedMethod,
     step,
-    // methods
     handleSelectMethod,
     handleContinue,
     handleConfirm,
   } = usePayment();
-  console.log(step);
+
   return (
     <div className="max-w-md mx-auto mt-10">
       <h2 className="mb-6 text-2xl font-bold text-center">Método de Pago</h2>

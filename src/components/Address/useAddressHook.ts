@@ -1,12 +1,13 @@
 import { FormikHelpers } from "formik";
 import { CheckoutStep } from "../../enum/checkout.enum";
-import { UserDetail } from "../../interfaces/checkout.interfaces";
+import { IAddressShipping } from "../../interfaces/checkout.interfaces";
 import { useContext } from "react";
 import { CheckoutContext } from "../../context/checkout.context";
 import * as Yup from "yup";
 
 export const useAddress = () => {
-  const { step, handleStep, user, handleUser } = useContext(CheckoutContext);
+  const { step, handleStep, addressShipping, handleAddressShipping } =
+    useContext(CheckoutContext);
 
   //Validations
   const AddressSchema = Yup.object().shape({
@@ -18,11 +19,11 @@ export const useAddress = () => {
 
   // Submit
   const handleSubmit = (
-    values: UserDetail,
-    { setSubmitting, resetForm }: FormikHelpers<UserDetail>
+    values: IAddressShipping,
+    { setSubmitting, resetForm }: FormikHelpers<IAddressShipping>
   ) => {
     handleStep(CheckoutStep.SHIPPING);
-    handleUser && handleUser(values);
+    handleAddressShipping && handleAddressShipping(values);
     setSubmitting(false);
     resetForm();
   };
@@ -34,8 +35,8 @@ export const useAddress = () => {
   return {
     step,
     handleStep,
-    user,
-    handleUser,
+    addressShipping,
+    handleAddressShipping,
     handleSubmit,
     AddressSchema,
     handleEdit,

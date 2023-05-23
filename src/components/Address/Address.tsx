@@ -3,7 +3,8 @@ import { useAddress } from "./useAddressHook";
 import { CheckoutStep } from "../../enum/checkout.enum";
 
 const AddressForm = () => {
-  const { step, user, handleSubmit, AddressSchema, handleEdit } = useAddress();
+  const { step, addressShipping, handleSubmit, AddressSchema, handleEdit } =
+    useAddress();
 
   return (
     <>
@@ -11,7 +12,7 @@ const AddressForm = () => {
       <div className="max-w-md mx-auto  border-2 p-3 ">
         {step === CheckoutStep.ADDRESS && (
           <Formik
-            initialValues={user}
+            initialValues={addressShipping}
             validationSchema={AddressSchema}
             onSubmit={handleSubmit}
           >
@@ -123,17 +124,20 @@ const AddressForm = () => {
               Información de la dirección
             </h3>
             <p>
-              <span className="font-medium">Calle y número:</span> {user.street}
+              <span className="font-medium">Calle y número:</span>{" "}
+              {addressShipping.street}
             </p>
             <p>
-              <span className="font-medium">Ciudad:</span> {user.city}
+              <span className="font-medium">Ciudad:</span>{" "}
+              {addressShipping.city}
             </p>
             <p>
-              <span className="font-medium">Estado:</span> {user.state}
+              <span className="font-medium">Estado:</span>{" "}
+              {addressShipping.state}
             </p>
             <p>
               <span className="font-medium">Código postal:</span>
-              {user.postalCode}
+              {addressShipping.postalCode}
             </p>
           </div>
         )}
