@@ -2,6 +2,7 @@ import { FaCreditCard, FaPaypal } from "react-icons/fa";
 import { usePayment } from "./usePaymentHook";
 import { CheckoutStep } from "../../enum/checkout.enum";
 import { AiFillCheckCircle } from "react-icons/ai";
+import { memo, useRef } from "react";
 
 const Payment = () => {
   const {
@@ -12,9 +13,14 @@ const Payment = () => {
     handleConfirm,
   } = usePayment();
 
+  const renderCount = useRef(0);
+  renderCount.current = renderCount.current + 1;
+
   return (
     <div className="max-w-md mx-auto mt-10">
-      <h2 className="mb-6 text-2xl font-bold text-center">Método de Pago</h2>
+      <h2 className="mb-6 text-2xl font-bold text-center">
+        Método de Pago: me he renderizado {renderCount.current}
+      </h2>
 
       {step === CheckoutStep.PAYMENT && (
         <div className="flex justify-center space-x-4 mb-4">
@@ -105,4 +111,4 @@ const Payment = () => {
   );
 };
 
-export default Payment;
+export default memo(Payment);

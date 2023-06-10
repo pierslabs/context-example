@@ -1,14 +1,25 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useAddress } from "./useAddressHook";
 import { CheckoutStep } from "../../enum/checkout.enum";
+import { memo, useContext, useRef } from "react";
+import { CheckoutContext } from "../../context/checkout.context";
 
 const AddressForm = () => {
   const { step, addressShipping, handleSubmit, AddressSchema, handleEdit } =
     useAddress();
 
+  const { statesCode } = useContext(CheckoutContext);
+
+  const renderCount = useRef(0);
+
+  renderCount.current = renderCount.current + 1;
+  console.log("StateCodes", statesCode);
   return (
     <>
-      <h2 className="text-2xl font-bold text-center mt-10">Dirección</h2>
+      <h2 className="text-2xl font-bold text-center mt-10">
+        Dirección --- Me he renderizado {renderCount.current}
+      </h2>
+      <h2></h2>
       <div className="max-w-md mx-auto  border-2 p-3 ">
         {step === CheckoutStep.ADDRESS && (
           <Formik
@@ -146,4 +157,4 @@ const AddressForm = () => {
   );
 };
 
-export default AddressForm;
+export default memo(AddressForm);

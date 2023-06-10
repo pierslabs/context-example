@@ -1,4 +1,4 @@
-import { createContext, useCallback, useState } from "react";
+import { createContext, useCallback, useMemo, useState } from "react";
 import { IAddressShipping } from "../interfaces/checkout.interfaces";
 import { CheckoutStep } from "../enum/checkout.enum";
 
@@ -8,7 +8,8 @@ interface CheckoutContextProps {
   addressShipping: IAddressShipping;
   handleStep: (step: CheckoutStep) => void;
   handleAddressShipping?: (address: IAddressShipping) => void;
-  setDone: (done: boolean) => void;
+  handleDone: (done: boolean) => void;
+  statesCode: string[];
 }
 
 export const CheckoutContext = createContext<CheckoutContextProps>(
@@ -26,9 +27,10 @@ const addressShippingInitialValues: IAddressShipping = {
 
 interface Props {
   children: JSX.Element | JSX.Element[];
+  statesCode: string[];
 }
 
-const CheckoutProvider = ({ children }: Props) => {
+const CheckoutProvider = ({ children, statesCode }: Props) => {
   // states
   const [step, setStep] = useState(CheckoutStep.ADDRESS);
   const [done, setDone] = useState(false);
@@ -37,25 +39,33 @@ const CheckoutProvider = ({ children }: Props) => {
   );
 
   // functions
-  const handleStep = (step: CheckoutStep) => {
+  const handleStep = useCallback((step: CheckoutStep) => {
     setStep(step);
-  };
+  }, []);
 
-  const handleAddressShipping = (address: IAddressShipping) => {
+  const handleAddressShipping = useCallback((address: IAddressShipping) => {
     setAddressShipping(address);
-  };
+  }, []);
+
+  const handleDone = useCallback((done: boolean) => {
+    setDone(done);
+  }, []);
+
+  const values = useMemo(
+    () => ({
+      handleStep,
+      handleAddressShipping,
+      handleDone,
+      step,
+      done,
+      addressShipping,
+      statesCode,
+    }),
+    [step]
+  );
 
   return (
-    <CheckoutContext.Provider
-      value={{
-        step,
-        addressShipping,
-        done,
-        handleStep,
-        handleAddressShipping,
-        setDone,
-      }}
-    >
+    <CheckoutContext.Provider value={values}>
       {children}
     </CheckoutContext.Provider>
   );
